@@ -1,6 +1,5 @@
 {
-    "guild" : 
-               {
+    "guild" : {
                 "GuildId" : "725693556584611892",
                 "GuildName" : "MiniGame Party",
                 "Owner" : "340821000927313920",
@@ -50,6 +49,7 @@
                     "other" : {
                         "inside" : "様々な理由により",
                         "outside" : "あなたは、様々な理由によってbanされました。"
+                    }
                 },
                 "Color" : {
                     "ban" : "ff0000",
@@ -63,5 +63,4 @@
                     "Icon" : "https://pbs.twimg.com/profile_images/1269258285921611779/5m2fq0Io_400x400.jpg"
                 }
                }
-  }
 }
