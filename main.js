@@ -28,22 +28,22 @@ client.on("ready", message => {
   });
 
 
-/*
+
 client.on("guildUpdate", bot =>{
     json.guild.GuildName = bot.members.guild.name;
       
     fs.writeFileSync('./setting.json',JSON.stringify(json),'utf8');
     console.log("guildUpdate catch");
     })
-*/
+
 
 client.on("message", async message => {
   
   if(message.content.startsWith("//stop")){
-    //if(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top)){
+    if(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top)){
     console.log("server stop");
     process.exit(0);}
-  
+    }
 
 
   //kick system
