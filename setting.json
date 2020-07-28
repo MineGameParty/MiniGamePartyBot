@@ -1,0 +1,67 @@
+{
+    "guild" : 
+               {
+                "GuildId" : "725693556584611892",
+                "GuildName" : "test",
+                "Owner" : "449889667605725206",
+                "Role" : {
+                    "top" : "737662029808271431",
+                    "admin" : "737662060485410837"
+                },
+                "OperationChannel" : {
+                    "BotPanel" : "725693556584611895",
+                    "Log" : "737661927592820796"
+                },
+                "KickReason" : {
+                    "NoSelfIntoroduction" : {
+                        "inside" : "自己紹介がないため",
+                        "outside" : "あなたは、サーバーに参加してから1週間経ちましたが自己紹介がないため、kickされました。"
+                    },
+                    "order" : {
+                        "inside" : "秩序維持のため",
+                        "outside" : "あなたは、サーバーの秩序を維持するにはkickすべきと判断されました。"
+                    },
+                    "remark" : {
+                        "inside" : "暴言が多いため",
+                        "outside" : "あなたは、サーバー内で暴言が多いためkickされました。。"
+                    },
+                    "direction" : {
+                        "inside" : "指示に従わなかったため",
+                        "outside" : "あなたは、運営の指示に従わなかったためkickされました。"
+                    },
+                    "other" : {
+                        "inside" : "様々な理由により",
+                        "outside" : "あなたは、様々な理由によってkickされました。"
+                    }
+                },
+                "BanReason" : {
+                    "order" : {
+                        "inside" : "秩序維持のため",
+                        "outside" : "あなたは、サーバーの秩序を維持するにはbanすべきと判断されました。"
+                    },
+                    "remark" : {
+                        "inside" : "暴言が多いため",
+                        "outside" : "あなたは、サーバー内で暴言が多いためbanされました。。"
+                    },
+                    "direction" : {
+                        "inside" : "指示に従わなかったため",
+                        "outside" : "あなたは、運営の指示に従わなかったためbanされました。"
+                    },
+                    "other" : {
+                        "inside" : "様々な理由により",
+                        "outside" : "あなたは、様々な理由によってbanされました。"
+                },
+                "Color" : {
+                    "ban" : "ff0000",
+                    "kick" : "f08018",
+                    "succeeded" : "317058",
+                    "failed" : "FD12A2",
+                    "info" : "2970e3"
+                },
+                "Bot" : {
+                    "Name" : "MiniGame Party",
+                    "Icon" : "https://pbs.twimg.com/profile_images/1269258285921611779/5m2fq0Io_400x400.jpg"
+                }
+               }
+  }
+}
