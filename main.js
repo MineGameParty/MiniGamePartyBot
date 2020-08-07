@@ -12,6 +12,7 @@ ran by node.js and discord.js
 const dotenv = require('dotenv').config();
 const fs = require('fs');
 const discord = require("discord.js");
+const { send } = require('process');
 
 
 const json = JSON.parse(fs.readFileSync('./setting.json','utf8'));
@@ -48,9 +49,9 @@ client.on("message", async message => {
 
   //kick system
   if (message.content.startsWith("//kick")) {
-    if (!(message.channel.id === json.guild.OperationChannel.BotPanel))  return message.delete();
+    if (!(message.channel.id === json.guild.Channel.BotPanel))  return message.delete();
       if (!(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.admin) || message.member.roles.cache.get(json.guild.Role.top)))
-        return await message.guild.channels.cache.get(json.guild.OperationChannel.BotPanel).send({
+        return await message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                   embed: {
                       title: "実行する権限がありません。",
                       color: json.guild.Color.failed,
@@ -61,7 +62,7 @@ client.on("message", async message => {
                   }
                });
           if (message.mentions.members.size !== 1)
-            return await message.guild.channels.cache.get(json.guild.OperationChannel.BotPanel).send({
+            return await message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                       embed: {
                           title: "kickするメンバーを1人指定してください",
                           color: json.guild.Color.failed,
@@ -99,7 +100,7 @@ client.on("message", async message => {
                   json.guild.KickReason.other.inside,
                   json.guild.KickReason.other.outside
                 ];
-              }else return await message.guild.channels.cache.get(json.guild.OperationChannel.BotPanel).send({
+              }else return await message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                                  embed: {
                                      title: "正しい理由選択番号を入力してください。",
                                      color: json.guild.Color.failed,
@@ -147,7 +148,7 @@ client.on("message", async message => {
           });
           
           await message.channel.send(text);
-          await message.guild.channels.cache.get(json.guild.OperationChannel.Log).send(text);
+          await message.guild.channels.cache.get(json.guild.Channel.Log).send(text);
           member.kick(reason[0]);
           
           }catch(e){console.log("kick system error\n"+e);}; 
@@ -156,9 +157,9 @@ client.on("message", async message => {
   
   //ban system
   if (message.content.startsWith("//ban")) {
-    if (!(message.channel.id === json.guild.OperationChannel.BotPanel))  return message.delete();
+    if (!(message.channel.id === json.guild.Channel.BotPanel))  return message.delete();
       if (!(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.admin) || message.member.roles.cache.get(json.guild.Role.top)))
-        return await message.guild.channels.cache.get(json.guild.OperationChannel.BotPanel).send({
+        return await message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                   embed: {
                     title: "実行する権限がありません。",
                     color: json.guild.Color.failed,
@@ -169,7 +170,7 @@ client.on("message", async message => {
                   }
                     });
           if (message.mentions.members.size !== 1)
-            return await message.guild.channels.cache.get(json.guild.OperationChannel.BotPanel).send({
+            return await message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                       embed: {
                         title: "banするメンバーを1人指定してください",
                         color: json.guild.Color.failed,
@@ -202,7 +203,7 @@ client.on("message", async message => {
               json.guild.Ban.Reason.other.inside,
               json.guild.Ban.Reason.other.outside
             ];
-          }else return message.guild.channels.cache.get(json.guild.OperationChannel.BotPanel).send({
+          }else return message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                                  embed: {
                                      title: "正しい理由選択番号を入力してください。",
                                      color: json.guild.Color.failed,
@@ -251,12 +252,20 @@ client.on("message", async message => {
             });
             
             await message.channel.send(text);
-            await message.guild.channels.cache.get(json.guild.OperationChannel.Log).send(text);
+            await message.guild.channels.cache.get(json.guild.Channel.Log).send(text);
             member.ban(reason[0]);
           }catch(e){console.log("ban system error\n"+e)}
         };
     })
 
+
+client.on("guildMemberUpdate", async (olduser,newuser) =>{
+    if(newuser.roles.cache.get(json.guild.Role.member)){
+      await message.guild.channels.cache.get(json.guild.Channel.Welcome).send(`<@${newuser.id}>${json.Messages.Welcome}`);
+    };
+  })
+
+  
 /*
 //new visitor announce
 client.on('userUpdate', (oldMember, newMember) => {
