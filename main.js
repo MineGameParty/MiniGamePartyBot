@@ -1,11 +1,11 @@
 /*
 
 created by huda0209
-minegameparty for disvord bot 
+minegameparty for discord bot 
 
 ran by node.js and discord.js
 
-2020-7-28
+2020-8-8
 */
 
 
@@ -43,6 +43,7 @@ client.on("message", async message => {
   if(message.content.startsWith("//stop")){
     if(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top)){
     console.log("server stop");
+    await message.delete()
     process.exit(0);}
     }
 
@@ -261,19 +262,14 @@ client.on("message", async message => {
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
     if(newuser.roles.cache.get(json.guild.Role.member)){
-      await message.guild.channels.cache.get(json.guild.Channel.Welcome).send(`<@${newuser.id}>${json.Messages.Welcome}`);
+      var message = json.guild.Message.Welcome
+      message = message.replace('{NAME}', `<@${newuser.id}>`)
+      message = message.replace('{GUILDNAME}', `<@${newuser.guild.id}>`)
+
+      await newuser.guild.channels.cache.get(json.guild.Channel.Welcome).send(message);
     };
   })
 
-  
-/*
-//new visitor announce
-client.on('userUpdate', (oldMember, newMember) => {
-    console.log(newMember)
-    //const text = ("<@"+member.id+"> さん、 team鍋公式Discordサーバー「闇鍋」にご参加いただきありがとうございます！！\n当サーバーに参加後、<#"+ json.guild.Channels[1] +">・<#"+ json.guild.Channels[2] +">をお読みください。\nその後、<#"+ json.guild.Channels[3] +">に自己紹介をお願いします。\n自己紹介が運営に確認され次第、ほかのコンテンツが使用可能になります。")
-    //member.guild.channels.cache.get(json.guild.Channels[0]).send(text);
-});
-*/
 
 
 if (process.env.DISCORD_BOT_TOKEN == undefined) {
