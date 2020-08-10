@@ -1,7 +1,7 @@
 /*
 
 created by huda0209
-minegameparty for discord bot 
+minigameparty for discord bot 
 
 ran by node.js and discord.js
 
@@ -261,7 +261,7 @@ client.on("message", async message => {
 
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
-    if(newuser.roles.cache.get(json.guild.Role.member)){
+    if(newuser.roles.cache.get(json.guild.Role.member) && !olduser.roles.cache.get(json.guild.Role.member)){
       var message = json.guild.Message.Welcome
       message = message.replace('{NAME}', `<@${newuser.id}>`)
       message = message.replace('{GUILDNAME}', `<@${newuser.guild.id}>`)
