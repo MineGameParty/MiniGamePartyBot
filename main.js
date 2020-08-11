@@ -5,7 +5,7 @@ minigameparty for discord bot
 
 ran by node.js and discord.js
 
-2020-8-8
+2020-8-12
 */
 
 
@@ -25,6 +25,7 @@ var sign = ["0⃣","1⃣","2⃣","3⃣","4⃣","5⃣","6⃣","7⃣","8⃣","9⃣
 
 client.on("ready", message => {
   console.log("bot is ready!");
+  client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
     //client.user.setActivity('', { type: 'PLAYING' })
   });
 
@@ -42,10 +43,22 @@ client.on("message", async message => {
   
   if(message.content.startsWith("//stop")){
     if(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top)){
-    console.log("server stop");
-    await message.delete()
-    process.exit(0);}
+      console.log("server stop");
+      await message.delete()
+      process.exit(0);}
     }
+
+
+  //自己紹介チャンネルの書き込み検知
+  if(message.channel.id === json.guild.Channel.SelfIntoroduction && !message.member.roles.cache.get(json.guild.Role.member)){
+    const member = message.member
+    await member.roles.add(json.guild.Role.write)
+    if(member.roles.cache.get(json.guild.Role.write) && member.roles.cache.get(json.guild.Role.check)){
+      await member.roles.remove(json.guild.Role.write)
+      await member.roles.remove(json.guild.Role.check)
+      await member.roles.add(json.guild.Role.member)
+    }
+  }
 
 
   //kick system
@@ -261,15 +274,31 @@ client.on("message", async message => {
 
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
+  console.log("bbbbb")
     if(newuser.roles.cache.get(json.guild.Role.member) && !olduser.roles.cache.get(json.guild.Role.member)){
       var message = json.guild.Message.Welcome
+      console.log("ddddd")
       message = message.replace('{NAME}', `<@${newuser.id}>`)
       message = message.replace('{GUILDNAME}', `<@${newuser.guild.id}>`)
-
+      console.log("assss")
       await newuser.guild.channels.cache.get(json.guild.Channel.Welcome).send(message);
+      console.log("aaaa")
     };
   })
 
+
+  client.on("messageReactionAdd", async(messageReaction ,user) =>{
+    if(user.bot) return;
+    const member = client.guilds.cache.get(json.guild.GuildId).members.cache.get(user.id);
+      if((messageReaction.message.id === json.guild.Panel.Rule) && messageReaction.emoji.name === '👌' && !member.roles.cache.get(json.guild.Role.member)){
+       await member.roles.add(json.guild.Role.check)
+        if(member.roles.cache.get(json.guild.Role.write) && member.roles.cache.get(json.guild.Role.check)){
+          await member.roles.remove(json.guild.Role.write);
+          await member.roles.remove(json.guild.Role.check);
+          await member.roles.add(json.guild.Role.member);
+        }
+      }
+  })    
 
 
 if (process.env.DISCORD_BOT_TOKEN == undefined) {
