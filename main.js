@@ -5,7 +5,7 @@ minigameparty for discord bot
 
 ran by node.js and discord.js
 
-2020-8-12
+2020-8-14
 */
 
 
@@ -133,7 +133,7 @@ client.on("message", async message => {
               },
               title: "Kicked User",
               description:
-                `${member.user.tag}をkickしました\nreason : ${reason[0]}"\n執行者 : ${message.member.user.username}`,
+                `${member.user.tag}をkickしました\nreason : ${reason[0]}\n執行者 : ${message.member.user.username}`,
               color: json.guild.Color.kick,
               footer: {
                     text: json.guild.Bot.Name,
@@ -198,24 +198,24 @@ client.on("message", async message => {
           var reason;
           if (message.content.endsWith("1")){
             reason = [
-              json.guild.Ban.Reason.order.inside,
-              json.guild.Ban.Reason.order.outside
+              json.guild.BanReason.order.inside,
+              json.guild.BanReason.order.outside
             ];
           }
           else if (message.content.endsWith("2")){
             reason = [
-              json.guild.Ban.Reason.remark.inside,
-              json.guild.Ban.Reason.remark.outside
+              json.guild.BanReason.remark.inside,
+              json.guild.BanReason.remark.outside
             ];
           }else if (message.content.endsWith("3")){
             reason = [
-              json.guild.Ban.Reason.direction.inside,
-              json.guild.Ban.Reason.direction.outside
+              json.guild.BanReason.direction.inside,
+              json.guild.BanReason.direction.outside
             ];
           }else if (message.content.endsWith("4")){
             reason = [
-              json.guild.Ban.Reason.other.inside,
-              json.guild.Ban.Reason.other.outside
+              json.guild.BanReason.other.inside,
+              json.guild.BanReason.other.outside
             ];
           }else return message.guild.channels.cache.get(json.guild.Channel.BotPanel).send({
                                  embed: {
