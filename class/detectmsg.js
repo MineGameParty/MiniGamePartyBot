@@ -12,25 +12,19 @@ main.js :MAIN  'MAIN CODE'
 
 ran by node.js and discord.js
 
-2020-8-14
+2020-8-15
 
 */
 
 
 class detectmsgevent {
-    constructor(message,client,fs,letter,json) {
+    constructor(message,json) {
         this.message = message;
-        this.client = client;
-        this.fs = fs;
-        this.letter = letter;
         this.json = json
     }
 
     async detectmsg (){
         const message = this.message;
-        const client = this.client;
-        const fs = this.fs;
-        const letter = this.letter;
         const json = this.json;
 
 

@@ -12,27 +12,21 @@ main.js :MAIN  'MAIN CODE'
 
 ran by node.js and discord.js
 
-2020-8-14
+2020-8-15
 
 */
 
 
 class anmevent {
-    constructor(olduser,newuser,client,fs,letter,json) {
+    constructor(olduser,newuser,json) {
         this.olduser = olduser;
         this.newuser = newuser;
-        this.client = client;
-        this.fs = fs;
-        this.letter = letter;
         this.json = json
     }
 
     async anm (){
         const newuser = this.newuser;
         const olduser = this.olduser;
-        const client = this.client;
-        const fs = this.fs;
-        const letter = this.letter;
         const json = this.json;
 
         if(newuser.roles.cache.get(json.guild.Role.member) && !olduser.roles.cache.get(json.guild.Role.member)){

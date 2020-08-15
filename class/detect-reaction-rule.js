@@ -12,18 +12,16 @@ main.js :MAIN  'MAIN CODE'
 
 ran by node.js and discord.js
 
-2020-8-14
+2020-8-15
 
 */
 
 
 class detectteactionruleevent {
-    constructor(messageReaction ,user,client,fs,letter,json) {
+    constructor(messageReaction ,user,client,json) {
         this.messageReaction = messageReaction;
         this.user = user;
         this.client = client;
-        this.fs = fs;
-        this.letter = letter;
         this.json = json
     }
 
@@ -31,8 +29,6 @@ class detectteactionruleevent {
         const messageReaction = this.messageReaction;
         const user = this.user;
         const client = this.client;
-        const fs = this.fs;
-        const letter = this.letter;
         const json = this.json;
 
 
