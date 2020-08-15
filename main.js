@@ -7,12 +7,13 @@ main.js :MAIN  'MAIN CODE'  <= this
  -kick.js :CLASS  'kick the member'
  -ban.js :CLASS  'react the message'
  -detectmsg.js :CLASS  'detect to write self introduction and add the role'
- -announce_new_member :CLASS  'announce new member'
-  -detect-reaction-rule.js :CLASS  'detect to react the message for our server's rule'
+ -announce_new_member.js :CLASS  'announce new member'
+ -detect-reaction-rule.js :CLASS  'detect to react the message for our server's rule'
 
 ran by node.js and discord.js
 
-2020-8-14
+ver. 2.1.0
+2020-8-15
 
 */
 
@@ -37,6 +38,7 @@ const letter = [[":zero:","0⃣"],[":one:","1⃣"],[":two:","2⃣"],[":three:","
 //start the bot
 client.on("ready", message => {
   console.log("bot is ready!");
+  client.user.setActivity('MiniGamePartyBot Ver 2.1.0', { type: 'PLAYING' })
   client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
 });
 
@@ -57,9 +59,9 @@ if(message.content.startsWith("//stop")){
     process.exit(0);}
   }
 
-  const bane = new banevent(message,client,fs,letter,json)
-  const kicke = new kickevent(message,client,fs,letter,json)
-  const detectmsge = new detectmsgevent(message,client,fs,letter,json)
+  const bane = new banevent(message,json)
+  const kicke = new kickevent(message,json)
+  const detectmsge = new detectmsgevent(message,json)
 
   bane.ban();
   kicke.kick();
@@ -69,6 +71,7 @@ if(message.content.startsWith("//stop")){
 
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
+  //announce_new_member.js 'announce new member'
   const anme = new anmevent(olduser,newuser,client,fs,letter,json)
   anme.anm()
 })
@@ -76,6 +79,7 @@ client.on("guildMemberUpdate", async (olduser,newuser) =>{
 
 client.on("messageReactionAdd", async(messageReaction ,user) =>{
   if(user.bot) return;
+  //detect-reaction-rule.js 'detect to react the message for our server's rule'
   const drre = new detectteactionruleevent(messageReaction ,user,client,fs,letter,json)
   drre.drr()
 })    
