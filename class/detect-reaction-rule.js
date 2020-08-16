@@ -18,7 +18,7 @@ ran by node.js and discord.js
 
 
 class detectteactionruleevent {
-    constructor(messageReaction ,user,client,json) {
+    constructor(messageReaction ,user, client, json) {
         this.messageReaction = messageReaction;
         this.user = user;
         this.client = client;
