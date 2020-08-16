@@ -27,7 +27,6 @@ class detectmsgevent {
         const message = this.message;
         const json = this.json;
 
-
         if(message.channel.id === json.guild.Channel.SelfIntoroduction && !message.member.roles.cache.get(json.guild.Role.member)){
             const member = message.member
             await member.roles.add(json.guild.Role.write)
