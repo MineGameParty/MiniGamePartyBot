@@ -12,8 +12,8 @@ main.js :MAIN  'MAIN CODE'  <= this
 
 ran by node.js and discord.js
 
-ver. 2.1.0
-2020-8-15
+ver. 2.1.1
+2020-8-16
 
 */
 
@@ -38,7 +38,8 @@ const letter = [[":zero:","0⃣"],[":one:","1⃣"],[":two:","2⃣"],[":three:","
 //start the bot
 client.on("ready", message => {
   console.log("bot is ready!");
-  client.user.setActivity('MiniGamePartyBot Ver 2.1.0', { type: 'PLAYING' })
+  client.user.setActivity('MiniGamePartyBot Ver 2.1.1', { type: 'PLAYING' })
+  //client.user.setActivity(process.env.ver, { type: 'PLAYING' })
   client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
 });
 
@@ -72,7 +73,7 @@ if(message.content.startsWith("//stop")){
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
   //announce_new_member.js 'announce new member'
-  const anme = new anmevent(olduser,newuser,client,fs,letter,json)
+  const anme = new anmevent(olduser,newuser,json)
   anme.anm()
 })
 
@@ -80,7 +81,7 @@ client.on("guildMemberUpdate", async (olduser,newuser) =>{
 client.on("messageReactionAdd", async(messageReaction ,user) =>{
   if(user.bot) return;
   //detect-reaction-rule.js 'detect to react the message for our server's rule'
-  const drre = new detectteactionruleevent(messageReaction ,user,client,fs,letter,json)
+  const drre = new detectteactionruleevent(messageReaction ,user, client, json)
   drre.drr()
 })    
 
