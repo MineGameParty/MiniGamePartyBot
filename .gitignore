@@ -1,1 +1,8 @@
+# Node modules
+/node_modules/
+
+#bot tokens
 .env
+
+#test files
+test.js
