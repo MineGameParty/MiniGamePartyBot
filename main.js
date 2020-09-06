@@ -89,12 +89,7 @@ client.on("messageReactionAdd", async(messageReaction ,user) =>{
 if(process.env.DISCORD_BOT_TOKEN == undefined || process.env.DISCORD_BOT_TOKEN == ""){
   console.log("please set ENV : DISCORD_BOT_TOKEN");
   process.exit(0);
-}
-if(process.env.TEST_TOKEN == undefined || process.env.TEST_TOKEN == ""){
-  console.log("please set ENV : TEST_TOKEN");
-  process.exit(0);
-}
-
+};
 
 var token;
 if(process.argv.length>=3){
@@ -103,6 +98,10 @@ if(process.argv.length>=3){
       token = process.env.DISCORD_BOT_TOKEN;
       break;
     case "test" :
+      if(process.env.TEST_TOKEN == undefined || process.env.TEST_TOKEN == ""){
+        console.log("please set ENV : TEST_TOKEN");
+        process.exit(0);
+      };
       token = process.env.TEST_TOKEN;
       break;
     default :
