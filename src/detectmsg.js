@@ -12,7 +12,7 @@ main.js :MAIN  'MAIN CODE'
 
 ran by node.js and discord.js
 
-2020-8-15
+2020-9-21
 
 */
 
@@ -30,6 +30,7 @@ class detectmsgevent {
         if(message.channel.id === json.guild.Channel.SelfIntoroduction && !message.member.roles.cache.get(json.guild.Role.member)){
             const member = message.member
             await member.roles.add(json.guild.Role.write)
+            await member.roles.add(json.guild.Role.check)
             if(member.roles.cache.get(json.guild.Role.write) && member.roles.cache.get(json.guild.Role.check)){
                 await member.roles.remove(json.guild.Role.write)
                 await member.roles.remove(json.guild.Role.check)
