@@ -1,6 +1,6 @@
 {
   "name": "mgpbpt",
-  "version": "1.0.0",
+  "version": "2.1.2",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huda0209/MiniGamePartyBot.git"
+    "url": "git+https://github.com/MineGameParty/MiniGamePartyBot.git"
   },
   "author": "huda0209",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/huda0209/MiniGamePartyBot/issues"
+    "url": "https://github.com/MineGameParty/MiniGamePartyBot/issues"
   },
-  "homepage": "https://github.com/huda0209/MiniGamePartyBot#readme",
+  "homepage": "https://github.com/MineGameParty/MiniGamePartyBot#readme",
   "dependencies": {
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
