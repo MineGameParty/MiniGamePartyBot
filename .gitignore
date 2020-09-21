@@ -3,6 +3,7 @@
 
 #bot tokens
 .env
+setting.json
 
 #test files
 test.js
