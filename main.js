@@ -14,7 +14,6 @@ ran by node.js and discord.js
 
 ver. 2.1.2
 2020-8-16
-
 */
 
 //node.js modules
@@ -67,9 +66,7 @@ if(message.content.startsWith("//stop")){
   bane.ban();
   kicke.kick();
   detectmsge.detectmsg();
-
 })
-
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
   //announce_new_member.js 'announce new member'
