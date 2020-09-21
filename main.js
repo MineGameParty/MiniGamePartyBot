@@ -12,7 +12,7 @@ main.js :MAIN  'MAIN CODE'  <= this
 
 ran by node.js and discord.js
 
-ver. 2.1.1
+ver. 2.1.2
 2020-8-16
 
 */
@@ -38,7 +38,7 @@ const letter = [[":zero:","0⃣"],[":one:","1⃣"],[":two:","2⃣"],[":three:","
 //start the bot
 client.on("ready", message => {
   console.log(`bot is ready! login : ${client.user.tag}`);
-  client.user.setActivity('MiniGamePartyBot Ver 2.1.1', { type: 'PLAYING' })
+  client.user.setActivity('MiniGamePartyBot Ver 2.1.2', { type: 'PLAYING' })
   //client.user.setActivity(process.env.ver, { type: 'PLAYING' })
   client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
 });
