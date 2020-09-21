@@ -12,34 +12,33 @@ main.js :MAIN  'MAIN CODE'  <= this
 
 ran by node.js and discord.js
 
-ver. 2.1.2
-2020-8-16
+2020-9-21
 */
 
 //node.js modules
 const dotenv = require('dotenv').config();
-const fs = require('fs');
 const discord = require("discord.js");
 
 //class
-const banevent = require('./class/ban.js')
-const kickevent = require('./class/kick.js')
-const detectmsgevent = require('./class/detectmsg.js')
-const anmevent = require('./class/announce_new_member.js')
-const detectteactionruleevent = require('./class/detect-reaction-rule.js')
+const banevent = require('./src/ban.js')
+const kickevent = require('./src/kick.js')
+const detectmsgevent = require('./src/detectmsg.js')
+const anmevent = require('./src/announce_new_member.js')
+//const detectteactionruleevent = require('./src/detect-reaction-rule.js')
 
 //other 
-var json = JSON.parse(fs.readFileSync('./setting.json','utf8'));
+var json = JSON.parse(fs.readFileSync('./config/guilddata.json','utf8'));
+const BOT_DATA = require('./config/setting.json');
 const client = new discord.Client();
+const package = require('./package.json');
 const letter = [[":zero:","0⃣"],[":one:","1⃣"],[":two:","2⃣"],[":three:","3⃣"],[":four:","4⃣"],[":five:","5⃣"],[":six:","6⃣"],[":seven:","7⃣"],[":eight:","8⃣"],[":nine:","9⃣"],[":keycap_ten:","🔟"],[":regional_indicator_a:","🇦"],[":regional_indicator_b:","🇧"],[":regional_indicator_c:","🇨"],[":regional_indicator_d:","🇩"],[":regional_indicator_e:","🇪"],[":regional_indicator_f:","🇫"],[":regional_indicator_g:","🇬"],[":regional_indicator_h:","🇭"],[":regional_indicator_i:","🇮"],[":regional_indicator_j:","🇯"],[":regional_indicator_k:","🇰"],[":regional_indicator_l:","🇱"],[":regional_indicator_m:","🇲"],[":regional_indicator_n:","🇳"],[":regional_indicator_o:","🇴"],[":regional_indicator_p:","🇵"],[":regional_indicator_q:","🇶"],[":regional_indicator_r:","🇷"],[":regional_indicator_s:","🇸"],[":regional_indicator_t:","🇹"],[":regional_indicator_u:","🇺"],[":regional_indicator_v:","🇻"],[":regional_indicator_w:","🇼"],[":regional_indicator_x:","🇽"],[":regional_indicator_y:","🇾"],[":regional_indicator_z:","🇿"]]
 
 
 //start the bot
 client.on("ready", message => {
-  console.log(`bot is ready! login : ${client.user.tag}`);
-  client.user.setActivity('MiniGamePartyBot Ver 2.1.2', { type: 'PLAYING' })
-  //client.user.setActivity(process.env.ver, { type: 'PLAYING' })
-  client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
+  console.log(`bot is ready! ver. ${package.version} \nlogin: ${client.user.tag}`);
+  client.user.setActivity(`MiniGamePartyBot ver. ${package.version}`, { type: 'PLAYING' })
+  //client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
 });
 
 //guild update event
@@ -78,13 +77,13 @@ client.on("guildMemberUpdate", async (olduser,newuser) =>{
 client.on("messageReactionAdd", async(messageReaction ,user) =>{
   if(user.bot) return;
   //detect-reaction-rule.js 'detect to react the message for our server's rule'
-  const drre = new detectteactionruleevent(messageReaction ,user, client, json)
-  drre.drr()
+  /*const drre = new detectteactionruleevent(messageReaction ,user, client, json)
+  drre.drr()*/
 })    
 
 
-if(process.env.DISCORD_BOT_TOKEN == undefined || process.env.DISCORD_BOT_TOKEN == ""){
-  console.log("please set ENV : DISCORD_BOT_TOKEN");
+if(BOT_DATA.bot.MAIN_TOKEN == undefined || BOT_DATA.bot.MAIN_TOKEN == ""){
+  console.log("please set ENV : MAIN_TOKEN");
   process.exit(0);
 };
 
@@ -92,18 +91,19 @@ var token;
 if(process.argv.length>=3){
   switch(process.argv[2]){
     case "main" :
-      token = process.env.DISCORD_BOT_TOKEN;
+      token = BOT_DATA.bot.MAIN_TOKEN;
       break;
     case "test" :
-      if(process.env.TEST_TOKEN == undefined || process.env.TEST_TOKEN == ""){
+      if(BOT_DATA.bot.TEST_TOKEN == undefined || BOT_DATA.bot.TEST_TOKEN == ""){
         console.log("please set ENV : TEST_TOKEN");
         process.exit(0);
       };
-      token = process.env.TEST_TOKEN;
+      token = BOT_DATA.bot.TEST_TOKEN;
+      package.version = `dev(${package.version})`
       break;
     default :
-      console.log(`\nUnknown command. \nUsage \n node main.js main : main token \n node main.js test : test token`)
+      console.log(`\nUnknown command. \nUsage \n node main.js main : Use main token \n node main.js test : Use test token`)
       process.exit(0);
   };
-}else token = process.env.DISCORD_BOT_TOKEN
+}else token = BOT_DATA.bot.MAIN_TOKEN
 client.login(token);
