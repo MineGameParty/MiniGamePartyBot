@@ -16,8 +16,8 @@ ran by node.js and discord.js
 */
 
 //node.js modules
-const dotenv = require('dotenv').config();
 const discord = require("discord.js");
+const fs = require('fs')
 
 //class
 const banevent = require('./src/ban.js')
@@ -45,19 +45,18 @@ client.on("ready", message => {
 //guild update event
 client.on("guildUpdate", bot =>{
   json.guild.GuildName = bot.members.guild.name;
-  fs.writeFileSync('./setting.json',JSON.stringify(json),'utf8');
+  fs.writeFileSync('./config/setting.json',JSON.stringify(json),'utf8');
   console.log("guildUpdate catch");
 })
 
 //message event
 client.on("message", async message => {
   
-if(message.content.startsWith("//stop")){
-  if(message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top)){
-    console.log("server stop");
-    await message.delete()
-    process.exit(0);}
-  }
+  if(message.content.startsWith("//stop") && (message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top))){
+    console.log(`server was stoped by ${message.author.tag}`);
+    await message.delete();
+    client.destroy();
+    process.exit(0)};
 
   const bane = new banevent(message,json)
   const kicke = new kickevent(message,json)
@@ -87,23 +86,22 @@ if(BOT_DATA.bot.MAIN_TOKEN == undefined || BOT_DATA.bot.MAIN_TOKEN == ""){
   console.log("please set ENV : MAIN_TOKEN");
   process.exit(0);
 };
-
 let token;
 if(process.argv.length>=3){
   switch(process.argv[2]){
     case "main" :
       token = BOT_DATA.bot.MAIN_TOKEN;
       break;
-    case "test" :
-      if(BOT_DATA.bot.TEST_TOKEN == undefined || BOT_DATA.bot.TEST_TOKEN == ""){
-        console.log("please set ENV : TEST_TOKEN");
+    case "div" :
+      if(BOT_DATA.bot.DIV_TOKEN == undefined || BOT_DATA.bot.DIV_TOKEN == ""){
+        console.log("please set ENV : DIV_TOKEN");
         process.exit(0);
       };
-      token = BOT_DATA.bot.TEST_TOKEN;
+      token = BOT_DATA.bot.DIV_TOKEN;
       package.version = `dev(${package.version})`
       break;
     default :
-      console.log(`\nUnknown command. \nUsage \n node main.js main : Use main token \n node main.js test : Use test token`)
+      console.log(`\nUnknown command. \nUsage \n node main.js main : Use main token \n node main.js div : Use development token`)
       process.exit(0);
   };
 }else token = BOT_DATA.bot.MAIN_TOKEN
