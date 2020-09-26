@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/MineGameParty/MiniGamePartyBot#readme",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.3.1",
     "fs": "0.0.1-security"
   }
 }
