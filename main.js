@@ -4,105 +4,118 @@ created by huda0209
 minigamepartybot for discord bot 
 
 main.js :MAIN  'MAIN CODE'  <= this
- -kick.js :CLASS  'kick the member'
- -ban.js :CLASS  'react the message'
- -detectmsg.js :CLASS  'detect to write self introduction and add the role'
- -announce_new_member.js :CLASS  'announce new member'
- -detect-reaction-rule.js :CLASS  'detect to react the message for our server's rule'
+  -kick.js :module
+  -ban.js :module
+  -command-handler.js :module
+  -punish.js :module
+  -detectmsg.js :module
+  -announce_new_member.js :module
+  -detect-reaction-rule.js :module
 
 ran by node.js and discord.js
 
-2020-9-21
+2020-10-19
 */
 
 //node.js modules
 const discord = require("discord.js");
-const fs = require('fs')
+const fs = require('fs');
 
 //class
+/*
 const banevent = require('./src/ban.js')
 const kickevent = require('./src/kick.js')
-const detectmsgevent = require('./src/detectmsg.js')
-const anmevent = require('./src/announce_new_member.js')
-//const detectteactionruleevent = require('./src/detect-reaction-rule.js')
+const detectmsgevent = require('./src/detectmsg.js')*/
+const anmevent = require('./src/announce_new_member.js');
+//const detect_reaction_rule = require('./src/detect-reaction-rule.js')
+
+//config
+let guildData = JSON.parse(fs.readFileSync('./config/guilddata.json','utf8'));
+const BOT_DATA = require('./config/setting.json');
 
 //other 
-const option = {ws: {intents: discord.Intents.ALL}};
-let json = JSON.parse(fs.readFileSync('./config/guilddata.json','utf8'));
-const BOT_DATA = require('./config/setting.json');
+const option = {ws: {intents: discord.Intents.ALL}, restTimeOffset: 10};
 const client = new discord.Client(option);
-const package = require('./package.json');
-const letter = [[":zero:","0⃣"],[":one:","1⃣"],[":two:","2⃣"],[":three:","3⃣"],[":four:","4⃣"],[":five:","5⃣"],[":six:","6⃣"],[":seven:","7⃣"],[":eight:","8⃣"],[":nine:","9⃣"],[":keycap_ten:","🔟"],[":regional_indicator_a:","🇦"],[":regional_indicator_b:","🇧"],[":regional_indicator_c:","🇨"],[":regional_indicator_d:","🇩"],[":regional_indicator_e:","🇪"],[":regional_indicator_f:","🇫"],[":regional_indicator_g:","🇬"],[":regional_indicator_h:","🇭"],[":regional_indicator_i:","🇮"],[":regional_indicator_j:","🇯"],[":regional_indicator_k:","🇰"],[":regional_indicator_l:","🇱"],[":regional_indicator_m:","🇲"],[":regional_indicator_n:","🇳"],[":regional_indicator_o:","🇴"],[":regional_indicator_p:","🇵"],[":regional_indicator_q:","🇶"],[":regional_indicator_r:","🇷"],[":regional_indicator_s:","🇸"],[":regional_indicator_t:","🇹"],[":regional_indicator_u:","🇺"],[":regional_indicator_v:","🇻"],[":regional_indicator_w:","🇼"],[":regional_indicator_x:","🇽"],[":regional_indicator_y:","🇾"],[":regional_indicator_z:","🇿"]]
-
+const logger = require('./src/util/logger');
 
 //start the bot
 client.on("ready", message => {
-  console.log(`bot is ready! ver. ${package.version} \nlogin: ${client.user.tag}`);
-  client.user.setActivity(`MiniGamePartyBot ver. ${package.version}`, { type: 'PLAYING' })
-  //client.channels.cache.get(json.guild.Channel.Rule).messages.fetch(json.guild.Panel.Rule)
+  logger.info(`bot is ready! ver. ${BOT_DATA.VERSION} \n        login: {cyan}${client.user.tag}{reset}\n`);
+  client.user.setActivity(`MiniGameParty ver. ${BOT_DATA.VERSION}`, { type: 'PLAYING' });
+  //client.channels.cache.get(guildData.guild.Channel.Rule).messages.fetch(guildData.guild.Panel.Rule)
 });
 
 //guild update event
 client.on("guildUpdate", bot =>{
-  json.guild.GuildName = bot.members.guild.name;
-  fs.writeFileSync('./config/setting.json',JSON.stringify(json),'utf8');
-  console.log("guildUpdate catch");
+  guildData.guild.GuildName = bot.members.guild.name;
+  fs.writeFileSync('./config/setting.json',JSON.stringify(guildData, null, '\t'),'utf8');
+  logger.info(`guildCreate catch`);
 })
 
 //message event
 client.on("message", async message => {
   
-  if(message.content.startsWith("//stop") && (message.author.id === json.guild.Owner || message.member.roles.cache.get(json.guild.Role.top))){
-    console.log(`server was stoped by ${message.author.tag}`);
-    await message.delete();
-    client.destroy();
-    process.exit(0)};
+  if (message.content.startsWith(BOT_DATA.PREFIX)){
+    const [command, ...args] = message.content.slice(BOT_DATA.PREFIX.length).split(' ');
 
-  const bane = new banevent(message,json)
-  const kicke = new kickevent(message,json)
-  const detectmsge = new detectmsgevent(message,json)
+    if(command.toLowerCase() === "stop" &&(message.author.id === message.guild.ownerID || message.member.roles.cache.get(guildData.guild.Role.top))){
+      logger.info(`server was stoped by {cyan}${message.author.tag}`);
+      await message.delete();
+      client.destroy();
+      process.exit(0)};
+    
+      //write command code here
+      commandHandler.commandHandler([command, ...args],message,guildData,BOT_DATA,client);
+  };
+  /*
+
+  const bane = new banevent(message,guildData)
+  const kicke = new kickevent(message,guildData)
+  const detectmsge = new detectmsgevent(message,guildData)
 
   bane.ban();
   kicke.kick();
-  detectmsge.detectmsg();
+  detectmsge.detectmsg();*/
 })
 
 client.on("guildMemberUpdate", async (olduser,newuser) =>{
   //announce_new_member.js 'announce new member'
-  const anme = new anmevent(olduser,newuser,json)
-  anme.anm()
+  anmevent.announce_new_member(olduser,newuser,guildData);
 })
 
 
 client.on("messageReactionAdd", async(messageReaction ,user) =>{
   if(user.bot) return;
   //detect-reaction-rule.js 'detect to react the message for our server's rule'
-  /*const drre = new detectteactionruleevent(messageReaction ,user, client, json)
-  drre.drr()*/
+  //detect_reaction_rule(messageReaction ,user, client, guildData);
 })    
 
 
-if(BOT_DATA.bot.MAIN_TOKEN == undefined || BOT_DATA.bot.MAIN_TOKEN == ""){
-  console.log("please set ENV : MAIN_TOKEN");
-  process.exit(0);
-};
+if(BOT_DATA.MAIN_TOKEN == undefined || BOT_DATA.MAIN_TOKEN == ""){
+  logger.error(`please set setting.json : {cyan}MAIN_TOKEN`);
+  process.exit(0)};
+if(BOT_DATA.PREFIX == undefined || BOT_DATA.PREFIX == ""){
+  logger.error(`please set setting.json : {cyan}PREFIX`);
+  process.exit(0)};
+if(BOT_DATA.VERSION == undefined || BOT_DATA.VERSION == ""){
+  logger.error(`please set setting.json : {cyan}VERSION`);
+  process.exit(0)};
 let token;
 if(process.argv.length>=3){
   switch(process.argv[2]){
     case "main" :
-      token = BOT_DATA.bot.MAIN_TOKEN;
+      token = BOT_DATA.MAIN_TOKEN;
       break;
     case "div" :
-      if(BOT_DATA.bot.DIV_TOKEN == undefined || BOT_DATA.bot.DIV_TOKEN == ""){
-        console.log("please set ENV : DIV_TOKEN");
-        process.exit(0);
-      };
-      token = BOT_DATA.bot.DIV_TOKEN;
-      package.version = `dev(${package.version})`
+      if(BOT_DATA.DIV_TOKEN == undefined || BOT_DATA.DIV_TOKEN == ""){
+        logger.error(`please set setting.json : {cyan}DIV_TOKEN`);
+        process.exit(0)};
+      token = BOT_DATA.DIV_TOKEN;
+      BOT_DATA.VERSION = `dev(${BOT_DATA.VERSION})`;
       break;
     default :
-      console.log(`\nUnknown command. \nUsage \n node main.js main : Use main token \n node main.js div : Use development token`)
+      logger.error(`Unknown command. \nUsage \n {green}node main.js main{reset} : use main token \n {green}node main.js div{reset} : use divelopment token`);
       process.exit(0);
   };
-}else token = BOT_DATA.bot.MAIN_TOKEN
+}else token = BOT_DATA.MAIN_TOKEN;
 client.login(token);
