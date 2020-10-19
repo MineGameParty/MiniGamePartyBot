@@ -3,45 +3,32 @@
 created by huda0209
 minigamepartybot for discord bot 
 
-main.js :MAIN  'MAIN CODE'
- -kick.js :CLASS  'kick the member'
- -ban.js :CLASS  'react the message'
- -detectmsg.js :CLASS  'detect to write self introduction and add the role'
- -announce_new_member :CLASS  'announce new member'
- -detect-reaction-rule.js :CLASS  'detect to react the message for our server's rule'  <= this
+main.js :MAIN  'MAIN CODE'  <= this
+  -kick.js :module
+  -ban.js :module
+  -command-handler.js :module
+  -punish.js :module
+  -detectmsg.js :module
+  -announce_new_member.js :module
+  -detect-reaction-rule.js :module
 
 ran by node.js and discord.js
 
-2020-8-15
-
+2020-10-19
 */
 
+const detect_reaction_rule = async function(messageReaction,user,client,guildData){
 
-class detectteactionruleevent {
-    constructor(messageReaction ,user, client, json) {
-        this.messageReaction = messageReaction;
-        this.user = user;
-        this.client = client;
-        this.json = json
-    }
-
-    async drr (){
-        const messageReaction = this.messageReaction;
-        const user = this.user;
-        const client = this.client;
-        const json = this.json;
+    const member = client.guilds.cache.get(guildData.guild.GuildId).members.cache.get(user.id);
+    if((messageReaction.message.id === guildData.guild.Panel.Rule) && messageReaction.emoji.name === '👌' && !member.roles.cache.get(guildData.guild.Role.member)){
+        await member.roles.add(guildData.guild.Role.check);
+        if(member.roles.cache.get(guildData.guild.Role.write) && member.roles.cache.get(guildData.guild.Role.check)){
+            await member.roles.remove(guildData.guild.Role.write);
+            await member.roles.remove(guildData.guild.Role.check);
+            await member.roles.add(guildData.guild.Role.member);
+        };
+    };
+};
 
 
-        const member = client.guilds.cache.get(json.guild.GuildId).members.cache.get(user.id);
-        if((messageReaction.message.id === json.guild.Panel.Rule) && messageReaction.emoji.name === '👌' && !member.roles.cache.get(json.guild.Role.member)){
-            await member.roles.add(json.guild.Role.check)
-            if(member.roles.cache.get(json.guild.Role.write) && member.roles.cache.get(json.guild.Role.check)){
-                await member.roles.remove(json.guild.Role.write);
-                await member.roles.remove(json.guild.Role.check);
-                await member.roles.add(json.guild.Role.member);
-            }
-        }
-    }
-}
-
-module.exports = detectteactionruleevent
+exports.detect_reaction_rule = detect_reaction_rule;
