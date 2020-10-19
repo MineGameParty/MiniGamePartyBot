@@ -3,17 +3,18 @@
 created by huda0209
 minigamepartybot for discord bot 
 
-main.js :MAIN  'MAIN CODE'
- -kick.js :CLASS  'kick the member'  <= this
- -ban.js :CLASS  'ban the member'
- -detectmsg.js :CLASS  'detect to write self introduction and add the role'
- -announce_new_member :CLASS  'announce new member'
- -detect-reaction-rule.js :CLASS  'detect to react the message for our server's rule'
+main.js :MAIN  'MAIN CODE'  <= this
+  -kick.js :module
+  -ban.js :module
+  -command-handler.js :module
+  -punish.js :module
+  -detectmsg.js :module
+  -announce_new_member.js :module
+  -detect-reaction-rule.js :module
 
 ran by node.js and discord.js
 
-2020-8-15
-
+2020-10-19
 */
 
 
