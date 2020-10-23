@@ -10,6 +10,8 @@ ran by node.js
 
 */
 
+'use strict'
+
 const color = require('../util/color.js')
 
 function color_replace(content){
@@ -32,23 +34,31 @@ function color_replace(content){
    return content
 }
 
+function contentChecker(content){
+   if(Object.prototype.toString.call(content).slice(8, -1).toLowerCase() == "string"){
+      return true;
+   }else return false;
+}
+
 const info = function(content){
-   content = color_replace(content);
+   if(contentChecker(content)) content = color_replace(content);
    console.log(`${color.header.info}${content}${color.reset}`);
 };
 
 const warn = function(content){
+   if(contentChecker(content)) content = color_replace(content);
    content = color_replace(content);
    console.log(`${color.header.warn}${content}${color.reset}`);
 };
 
 const error = function(content){
+   if(contentChecker(content))content = color_replace(content);
    content = color_replace(content);
    console.log(`${color.header.error}${content}${color.reset}`);
 };
 
 const debug = function(content){
-   content = color_replace(content);
+   if(contentChecker(content)) content = color_replace(content);
    console.log(` ${color.bgcolor.white}${color.chcol.magenta} DEBUG ${color.reset} ${content}${color.reset}`);
 };
 
