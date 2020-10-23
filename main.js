@@ -37,6 +37,7 @@ const BOT_DATA = require('./config/setting.json');
 const option = {ws: {intents: discord.Intents.ALL}, restTimeOffset: 10};
 const client = new discord.Client(option);
 const logger = require('./src/util/logger');
+const configChecker = require('./src/util/config');
 
 //start the bot
 client.on("ready", message => {
@@ -91,15 +92,7 @@ client.on("messageReactionAdd", async(messageReaction ,user) =>{
 })    
 
 
-if(BOT_DATA.MAIN_TOKEN == undefined || BOT_DATA.MAIN_TOKEN == ""){
-  logger.error(`please set setting.json : {cyan}MAIN_TOKEN`);
-  process.exit(0)};
-if(BOT_DATA.PREFIX == undefined || BOT_DATA.PREFIX == ""){
-  logger.error(`please set setting.json : {cyan}PREFIX`);
-  process.exit(0)};
-if(BOT_DATA.VERSION == undefined || BOT_DATA.VERSION == ""){
-  logger.error(`please set setting.json : {cyan}VERSION`);
-  process.exit(0)};
+configChecker.check(BOT_DATA);
 let token;
 if(process.argv.length>=3){
   switch(process.argv[2]){
@@ -107,9 +100,7 @@ if(process.argv.length>=3){
       token = BOT_DATA.MAIN_TOKEN;
       break;
     case "div" :
-      if(BOT_DATA.DIV_TOKEN == undefined || BOT_DATA.DIV_TOKEN == ""){
-        logger.error(`please set setting.json : {cyan}DIV_TOKEN`);
-        process.exit(0)};
+      configChecker.divCheck(BOT_DATA);
       token = BOT_DATA.DIV_TOKEN;
       BOT_DATA.VERSION = `dev(${BOT_DATA.VERSION})`;
       break;
